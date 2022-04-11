@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+        <title>Deletar cadastro</title>
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    </head>
+
+    <body class="bg-light">
+
+        <!-- Topo -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-info">
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown">Menu</a>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/pagina_cadastro">Cadastro</a>
+                            <a class="dropdown-item" href="/pagina_resultados">Resultados</a>
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+
+        <!-- Conteúdo -->
+        <main role="main" class="container mt-3 mb-5">
+
+            <form th:action="@{/deletar/{id}(id=${id})}" th:object="${cadastro}" method="post">
+
+                <!-- Dados pessoais -->
+                <div class="card mb-4">
+                    <div class="card-header bg-danger font-weight-bold mb-3 text-light">Deletar cadastro</div>
+
+                    <div class="form-row pl-3 pr-3">
+
+                        <div class="form-group col-md-4">
+                            <label>ID</label>
+                            <input type="text" th:field="*{id}" class="form-control" name="id" placeholder="ID" disabled="true">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Confirma deletar cadastro -->
+                <div class="form-row pl-3 pr-3">
+
+                    <div class="form pt-2 mr-3">
+                        <label for="confirma_deletar">Entendido</label>
+                        <input type="checkbox" name="confirma_deletar" id="confirma_deletar">
+                    </div>
+
+                    <div class="form-group col-md-3 mt-1">
+                        <input type="submit" value="Deletar" class="btn btn-danger btn-sm">
+                    </div>
+
+                </div>
+
+            </form>
+
+        </main>
+
+    </body>
+
+</html>

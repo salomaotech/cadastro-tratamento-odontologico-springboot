@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+        <title>Cadastro</title>
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    </head>
+
+    <body class="bg-light">
+
+        <!-- Topo -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-info">
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown">Menu</a>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/pagina_cadastro">Cadastro</a>
+                            <a class="dropdown-item" href="/pagina_resultados">Resultados</a>                            
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+
+        <!-- Conteúdo -->
+        <main role="main" class="container mt-3 mb-5">
+
+            <!-- Formulário -->
+            <form th:action="@{/adicionar/{id}(id=${id})}" th:object="${cadastro}" method="post">
+
+                <!-- Dados do tratamento -->
+                <div class="card mb-4">
+                    <div class="card-header font-weight-bold mb-3">Tratamento dentário</div>
+
+                    <div class="pl-3 pr-3">
+
+                        <div class="form-row mb-2">
+
+                            <div class="form-group col-md-2">
+                                <label>Data de início</label>
+                                <input type="date" th:field="*{dataInicio}" name="dataInicio" class="form-control">
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label>Data de conclusão</label>
+                                <input type="date" th:field="*{dataConclusao}" name="dataConclusao" class="form-control">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label>Situação</label>
+                                <select th:field="*{situacao}" name="situacao" class="form-control">
+                                    <option value="Iniciado">Iniciado</option>
+                                    <option value="Concluido">Concluido</option>
+                                    <option value="Cancelado">Cancelado</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-row mb-2">
+
+                            <div class="form-group col-md-2">
+                                <label>Dentes</label>
+                                <textarea cols="5" rows="4" th:field="*{dentes}" name="dentes" class="form-control" placeholder="Dentes"></textarea>
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label>Procedimento</label>
+                                <textarea cols="5" rows="4" th:field="*{procedimento}" name="procedimento" class="form-control" placeholder="Procedimento"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="form-row mb-2">
+
+                            <div class="form-group col-md-2">
+                                <label>Valor R$</label>
+                                <input type="text" th:field="*{valor}" name="valor" class="form-control" placeholder="Valor R$">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Salvar -->
+                <div class="form-row">
+
+                    <div th:if="not ${cadastro.id}" class="form-group col-md-3">
+                        <input type="submit" value="Cadastrar" class="btn btn-success btn-sm">
+                    </div>
+
+                    <div th:if="${cadastro.id}" class="form-group col-md-3">                   
+                        <input type="submit" value="Salvar" class="btn btn-info mr-4 btn-sm">
+                        <a th:href="@{/pagina_deleta/{id}(id=${cadastro.id})}" class="btn text-white bg-danger btn-sm">Deletar</a>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </main>
+
+    </body>
+
+</html>

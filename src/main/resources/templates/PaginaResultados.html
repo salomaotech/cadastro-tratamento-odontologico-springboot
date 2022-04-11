@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+        <title>Resultados</title>
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    </head>
+
+    <body class="bg-light">
+
+        <!-- Topo -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-info">
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown">Menu</a>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/pagina_cadastro">Cadastro</a>
+                            <a class="dropdown-item" href="/pagina_resultados">Resultados</a>
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+
+        <!-- Conteúdo -->
+        <main role="main" class="container mt-5">
+
+
+            <!-- Pesquisa -->
+
+            <form th:action="@{/pagina_resultados}" method="get">
+                <div class="card mb-4">
+                    <div class="card-header font-weight-bold mb-3">Filtros de busca</div>
+
+                    <div class="pl-3 pr-3">
+
+                        <div class="form-row">
+
+                            <!-- Data de inicio -->
+                            <div class="form-group col-md-2">
+                                <label>Data de início</label>
+                                <input type="date" name="dataInicio" th:value="${param.dataInicio}" class="form-control">
+                            </div>
+
+                            <!-- Data de fim -->
+                            <div class="form-group col-md-2">
+                                <label>Data de conclusão</label>
+                                <input type="date" name="dataConclusao" th:value="${param.dataConclusao}" class="form-control">
+                            </div>
+
+                            <!-- situacao -->
+                            <div class="form-group col-md-3">
+
+                                <label>Situação</label>
+                                <select name="situacao" class="form-control">
+
+                                    <optgroup label="Selecionado">
+                                        <option th:if="${#request.getParameter('situacao') == 'Iniciado'}" th:value="Iniciado" th:text="Iniciado" selected></option>
+                                        <option th:if="${#request.getParameter('situacao') == 'Concluido'}" th:value="Concluido" th:text="Concluido" selected></option>
+                                        <option th:if="${#request.getParameter('situacao') == 'Cancelado'}" th:value="Iniciado" th:text="Cancelado" selected></option>
+                                    </optgroup>
+
+                                    <optgroup label="Opções">
+                                        <option value="Iniciado">Iniciado</option>
+                                        <option value="Concluido">Concluido</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </optgroup>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+
+                            <!-- Botão buscar -->
+                            <div class="form-group col-md-3">
+                                <input type="submit" value="Buscar" class="btn btn-success btn-sm">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+
+            <table class="table">
+
+                <thead class="bg-light">
+
+                    <tr>
+                        <th scope="col">ID</th>  
+                        <th scole="col">Data de início</th>
+                        <th scole="col">Data de conclusão</th>
+                        <th scole="col">Dentes</th>
+                        <th scole="col">Procedimento</th>                 
+                        <th scole="col">Situação</th>
+                        <th scole="col">Valor R$</th>
+                    </tr>
+
+                </thead>
+
+                <tr th:each="cadastro : ${cadastros}">
+                    <td>
+                        <a th:href="@{/pagina_cadastro/{id}(id=${cadastro.id})}" th:text="${cadastro.id}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(cadastro.dataInicio, 'dd-MM-yyyy')}"></td>  
+                    <td th:text="${#temporals.format(cadastro.dataConclusao, 'dd-MM-yyyy')}"></td>  
+                    <td th:text="${cadastro.dentes}"></td>
+                    <td th:text="${cadastro.procedimento}"></td>      
+                    <td th:text="${cadastro.situacao}"></td>
+                    <td th:text="${cadastro.valor}"></td>
+                    </td>                  
+                </tr>
+
+            </table>
+
+            <div class="card mb-4">
+                <div class="card-header font-weight-bold mb-3 h6">Saldo R$</div>
+                <span th:text="${saldo}" class="pl-3 pr-3 pb-3 h6"></span>
+            </div>
+
+            <!-- Formulário -->
+            <form th:action="@{/pagina_resultados/}" method="request" class="mt-5 mb-5">
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-2 mr-1">
+
+                        <!-- Paginador -->
+                        <select class="form-control" id="paginador" name="pagina">
+                            <option th:each="pageSize : ${numero_paginas}" th:text="${pageSize}" th:value="${pageSize}" th:selected="${pageSize} == ${pagina}"></option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <input type="submit" value="Abrir página" class="btn btn-info">
+                    </div>
+
+                </div>
+
+            </form>
+
+        </main>
+
+    </body>
+
+</html>
