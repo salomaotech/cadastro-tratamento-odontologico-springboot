@@ -55,14 +55,14 @@
 
                             <!-- Data de inicio -->
                             <div class="form-group col-md-2">
-                                <label>Data de início</label>
+                                <label>Data início</label>
                                 <input type="date" name="dataInicio" th:value="${param.dataInicio}" class="form-control">
                             </div>
 
                             <!-- Data de fim -->
                             <div class="form-group col-md-2">
-                                <label>Data de conclusão</label>
-                                <input type="date" name="dataConclusao" th:value="${param.dataConclusao}" class="form-control">
+                                <label>Data fim</label>
+                                <input type="date" name="dataFim" th:value="${param.dataFim}" class="form-control">
                             </div>
 
                             <!-- situacao -->
@@ -78,6 +78,7 @@
                                     </optgroup>
 
                                     <optgroup label="Opções">
+                                        <option></option>
                                         <option value="Iniciado">Iniciado</option>
                                         <option value="Concluido">Concluido</option>
                                         <option value="Cancelado">Cancelado</option>
@@ -109,10 +110,9 @@
 
                     <tr>
                         <th scope="col">ID</th>  
-                        <th scole="col">Data de início</th>
-                        <th scole="col">Data de conclusão</th>
-                        <th scole="col">Dentes</th>
-                        <th scole="col">Procedimento</th>                 
+                        <th scole="col">Data</th>
+                        <th scole="col">Procedimento</th>  
+                        <th scole="col">Dentes</th>                                       
                         <th scole="col">Situação</th>
                         <th scole="col">Valor R$</th>
                     </tr>
@@ -124,9 +124,8 @@
                         <a th:href="@{/pagina_cadastro/{id}(id=${cadastro.id})}" th:text="${cadastro.id}"></a>
                     </td>
                     <td th:text="${#temporals.format(cadastro.dataInicio, 'dd-MM-yyyy')}"></td>  
-                    <td th:text="${#temporals.format(cadastro.dataConclusao, 'dd-MM-yyyy')}"></td>  
-                    <td th:text="${cadastro.dentes}"></td>
-                    <td th:text="${cadastro.procedimento}"></td>      
+                    <td th:text="${cadastro.procedimento}"></td>  
+                    <td th:text="${cadastro.dentes}"></td>                       
                     <td th:text="${cadastro.situacao}"></td>
                     <td th:text="${cadastro.valor}"></td>
                     </td>                  

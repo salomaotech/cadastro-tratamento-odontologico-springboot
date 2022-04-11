@@ -53,17 +53,12 @@
 
                         <div class="form-row mb-2">
 
-                            <div class="form-group col-md-2">
-                                <label>Data de início</label>
+                            <div class="form-group col-md-3">
+                                <label>Data</label>
                                 <input type="date" th:field="*{dataInicio}" name="dataInicio" class="form-control">
                             </div>
 
-                            <div class="form-group col-md-2">
-                                <label>Data de conclusão</label>
-                                <input type="date" th:field="*{dataConclusao}" name="dataConclusao" class="form-control">
-                            </div>
-
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label>Situação</label>
                                 <select th:field="*{situacao}" name="situacao" class="form-control">
                                     <option value="Iniciado">Iniciado</option>
@@ -76,12 +71,12 @@
 
                         <div class="form-row mb-2">
 
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-3">
                                 <label>Dentes</label>
                                 <textarea cols="5" rows="4" th:field="*{dentes}" name="dentes" class="form-control" placeholder="Dentes"></textarea>
                             </div>
 
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-4">
                                 <label>Procedimento</label>
                                 <textarea cols="5" rows="4" th:field="*{procedimento}" name="procedimento" class="form-control" placeholder="Procedimento"></textarea>
                             </div>

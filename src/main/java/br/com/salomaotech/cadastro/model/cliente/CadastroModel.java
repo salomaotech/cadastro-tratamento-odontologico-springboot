@@ -21,9 +21,6 @@ public class CadastroModel implements Serializable {
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate dataInicio;
 
-    @DateTimeFormat(iso = ISO.DATE)
-    private LocalDate dataConclusao;
-
     private String situacao;
     private String dentes;
     private String procedimento;
@@ -46,14 +43,6 @@ public class CadastroModel implements Serializable {
 
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
-    }
-
-    public LocalDate getDataConclusao() {
-        return dataConclusao;
-    }
-
-    public void setDataConclusao(LocalDate dataConclusao) {
-        this.dataConclusao = dataConclusao;
     }
 
     public String getSituacao() {

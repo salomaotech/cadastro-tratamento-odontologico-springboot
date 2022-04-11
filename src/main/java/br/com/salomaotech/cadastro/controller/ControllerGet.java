@@ -11,7 +11,6 @@ import br.com.salomaotech.cadastro.model.sistema.ValidaStringIsEmpty;
 import br.com.salomaotech.cadastro.model.sistema.FormataNumero;
 import br.com.salomaotech.cadastro.model.sistema.Paginador;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import static java.util.Objects.isNull;
@@ -124,80 +123,60 @@ public class ControllerGet {
         /* nova ModelAndView */
         ModelAndView model = new ModelAndView("PaginaResultados");
 
-        /* tipo de pesquisa */
-        int tipoPesquisa = 0;
-
         /* paginador */
-        Paginador paginador = new Paginador();
+        Paginador paginador;
 
         /* resultados */
-        List resultados = new ArrayList();
+        List resultados;
 
         /* valores monetários */
         BigDecimal valor = new BigDecimal("0");
 
-        /* filtros de busca */
-        String dataInicio = request.getParameter("dataInicio");
-        String dataConclusao = request.getParameter("dataConclusao");
-        String situacao = request.getParameter("situacao");
+        /* valida parametro */
+        if (request.getParameterMap().isEmpty()) {
 
-        /* está usando os filtros */
-        if (!request.getParameterMap().isEmpty()) {
+            /* não usa filtro de pesquisa */
+            paginador = new Paginador(50, request.getParameter("pagina"), this.cadastroRepository.count());
 
-            /* filtra por: situacao */
-            if (ValidaStringIsEmpty.isEmpty(dataInicio) & !ValidaStringIsEmpty.isEmpty(situacao)) {
+            /* resultados */
+            resultados = cadastroRepository.findAllList(paginador.getPaginadorOrdenadoAsc("data_inicio"));
 
-                tipoPesquisa = 1;
+        } else {
 
-            }
+            /* filtros de busca */
+            String dataInicio = request.getParameter("dataInicio");
+            String dataFim = request.getParameter("dataFim");
+            String situacao = request.getParameter("situacao");
 
-            /* filtra por: inicio, situacao */
-            if (!ValidaStringIsEmpty.isEmpty(dataInicio) & !ValidaStringIsEmpty.isEmpty(situacao)) {
+            /* valida se a data do fim está em branco */
+            if (ValidaStringIsEmpty.isEmpty(dataFim)) {
 
-                tipoPesquisa = 2;
-
-            }
-
-            /* filta por: inicio, conclusao, situacao */
-            if (!ValidaStringIsEmpty.isEmpty(dataInicio) & !ValidaStringIsEmpty.isEmpty(dataConclusao) & !ValidaStringIsEmpty.isEmpty(situacao)) {
-
-                tipoPesquisa = 3;
+                dataFim = dataInicio;
 
             }
 
-        }
+            /* valida se a situacao está em branco */
+            if (ValidaStringIsEmpty.isEmpty(situacao)) {
 
-        /* valida o tipo de pesquisa */
-        switch (tipoPesquisa) {
+                situacao = "";
 
-            case 0:
-                /* não usa filtros */
-                paginador = new Paginador(50, request.getParameter("pagina"), this.cadastroRepository.count());
-                resultados = cadastroRepository.findAllList(paginador.getPaginadorOrdenadoAsc("data_inicio"));
-                valor = cadastroRepository.findAllSaldo();
-                break;
+            }
 
-            case 1:
-                /* filtra por: situacao */
-                paginador = new Paginador(50, request.getParameter("pagina"), this.cadastroRepository.findByHistoricoCount(situacao));
-                resultados = cadastroRepository.findAllList(situacao, paginador.getPaginadorOrdenadoAsc("data_inicio"));
-                valor = cadastroRepository.findAllSaldo(situacao);
-                break;
+            /* valida se a data de início está em branco */
+            if (ValidaStringIsEmpty.isEmpty(dataInicio)) {
 
-            case 2:
-                /* filtra por: inicio, situacao */
-                paginador = new Paginador(50, request.getParameter("pagina"), this.cadastroRepository.findByHistoricoCount(dataInicio, situacao));
-                resultados = cadastroRepository.findByHistorico(dataInicio, situacao, paginador.getPaginadorOrdenadoAsc("data_inicio"));
-                valor = cadastroRepository.findByHistoricoSaldo(dataInicio, situacao);
-                break;
+                System.out.println(".......");
 
-            case 3:
-                /* filta por: inicio, conclusao, situacao */
-                paginador = new Paginador(50, request.getParameter("pagina"), this.cadastroRepository.findByHistoricoCount(dataInicio, dataConclusao, situacao));
-                resultados = cadastroRepository.findByHistorico(dataInicio, dataConclusao, situacao, paginador.getPaginadorOrdenadoAsc("data_inicio"));
-                valor = cadastroRepository.findByHistoricoSaldo(dataInicio, dataConclusao, situacao);
-                break;
-            default:
+            }
+
+            /* usa filtro de pesquisa */
+            paginador = new Paginador(50, request.getParameter("pagina"), this.cadastroRepository.findByHistoricoCount(dataInicio, dataFim, situacao));
+
+            /* resultados */
+            resultados = cadastroRepository.findByHistorico(dataInicio, dataFim, situacao, paginador.getPaginadorOrdenadoAsc("data_inicio"));
+
+            /* valor */
+            valor = cadastroRepository.findByHistoricoSaldo(dataInicio, dataFim, situacao);
 
         }
 

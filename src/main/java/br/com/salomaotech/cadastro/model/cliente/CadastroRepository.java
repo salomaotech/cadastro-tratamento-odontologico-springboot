@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
 
     /**
-     * Não usa filtros apenas pagina os dados
+     * Lista todos os resultados, filtros: Nenhum
      *
      * @param pageable
      * @return
@@ -25,74 +25,7 @@ public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
     List<CadastroModel> findAllList(Pageable pageable);
 
     /**
-     * Não usa filtros apenas soma todos os valores
-     *
-     * @return
-     */
-    @Query(value = "SELECT SUM(valor) FROM cadastro_model", nativeQuery = true)
-    BigDecimal findAllSaldo();
-
-    /**
-     * Usa os filtros: situacao
-     *
-     * @param situacao
-     * @param pageable
-     * @return
-     */
-    @Query(value = "SELECT * FROM cadastro_model WHERE situacao LIKE %?", nativeQuery = true)
-    List<CadastroModel> findAllList(String situacao, Pageable pageable);
-
-    /**
-     * Usa os filtros: situacao
-     *
-     * @param situacao
-     * @return
-     */
-    @Query(value = "SELECT COUNT(id) FROM cadastro_model WHERE situacao LIKE %?", nativeQuery = true)
-    long findByHistoricoCount(String situacao);
-
-    /**
-     * Usa os filtros: situacao
-     *
-     * @param situacao
-     * @return
-     */
-    @Query(value = "SELECT SUM(valor) FROM cadastro_model WHERE situacao LIKE %?", nativeQuery = true)
-    BigDecimal findAllSaldo(String situacao);
-
-    /**
-     * Usa os filtros: inicio, situacao
-     *
-     * @param inicio
-     * @param situacao
-     * @param pageable
-     * @return
-     */
-    @Query(value = "SELECT * FROM cadastro_model WHERE data_inicio = ? AND situacao LIKE %?", nativeQuery = true)
-    List<CadastroModel> findByHistorico(String inicio, String situacao, Pageable pageable);
-
-    /**
-     * Usa os filtros: inicio, situacao
-     *
-     * @param inicio
-     * @param situacao
-     * @return
-     */
-    @Query(value = "SELECT COUNT(id) FROM cadastro_model WHERE data_inicio = ? AND situacao LIKE %?", nativeQuery = true)
-    long findByHistoricoCount(String inicio, String situacao);
-
-    /**
-     * Usa os filtros: inicio, situacao
-     *
-     * @param inicio
-     * @param situacao
-     * @return
-     */
-    @Query(value = "SELECT SUM(valor) FROM cadastro_model WHERE data_inicio = ? AND situacao LIKE %?", nativeQuery = true)
-    BigDecimal findByHistoricoSaldo(String inicio, String situacao);
-
-    /**
-     * Usa os filtros: inicio, fim, situacao
+     * Lista todos os resultados, filtros: data, situacao
      *
      * @param inicio
      * @param fim
@@ -100,29 +33,29 @@ public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
      * @param pageable
      * @return
      */
-    @Query(value = "SELECT * FROM cadastro_model WHERE (data_inicio >= ? AND data_conclusao <= ?) AND situacao LIKE %?", nativeQuery = true)
+    @Query(value = "SELECT * FROM cadastro_model WHERE data_inicio BETWEEN ? AND ? AND (situacao LIKE %?)", nativeQuery = true)
     List<CadastroModel> findByHistorico(String inicio, String fim, String situacao, Pageable pageable);
 
     /**
-     * Usa os filtros: inicio, fim, situacao
+     * Conta o número de registros, filtros: data, situacao
      *
      * @param inicio
      * @param fim
      * @param situacao
      * @return
      */
-    @Query(value = "SELECT COUNT(id) FROM cadastro_model WHERE (data_inicio >= ? AND data_conclusao <= ?) AND situacao LIKE %?", nativeQuery = true)
+    @Query(value = "SELECT COUNT(id) FROM cadastro_model WHERE data_inicio BETWEEN ? AND ? AND (situacao LIKE %?)", nativeQuery = true)
     long findByHistoricoCount(String inicio, String fim, String situacao);
 
     /**
-     * Usa os filtros: inicio, fim, situacao
+     * Retorna a soma de todos os valores, filtros: data, situacao
      *
      * @param inicio
      * @param fim
      * @param situacao
      * @return
      */
-    @Query(value = "SELECT SUM(valor) FROM cadastro_model WHERE (data_inicio >= ? AND data_conclusao <= ?) AND situacao LIKE %?", nativeQuery = true)
+    @Query(value = "SELECT SUM(valor) FROM cadastro_model WHERE data_inicio BETWEEN ? AND ? AND (situacao LIKE %?)", nativeQuery = true)
     BigDecimal findByHistoricoSaldo(String inicio, String fim, String situacao);
 
 }
