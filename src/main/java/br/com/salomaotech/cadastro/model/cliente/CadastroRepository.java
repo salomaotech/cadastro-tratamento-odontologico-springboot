@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
 
     /**
-     * Lista todos os resultados, filtros: Nenhum
+     * Lista todos os registros, filtros: nenhum
      *
      * @param pageable
      * @return
@@ -25,7 +25,43 @@ public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
     List<CadastroModel> findAllList(Pageable pageable);
 
     /**
-     * Lista todos os resultados, filtros: data, situacao
+     * Retorna a soma de todos os valores, filtros: nenhum
+     *
+     * @return
+     */
+    @Query(value = "SELECT SUM(valor) FROM cadastro_model", nativeQuery = true)
+    BigDecimal findAllListSaldo();
+
+    /**
+     * Lista todos os registros, filtros: situacao
+     *
+     * @param situacao
+     * @param pageable
+     * @return
+     */
+    @Query(value = "SELECT * FROM cadastro_model WHERE situacao LIKE %?", nativeQuery = true)
+    List<CadastroModel> findByHistorico(String situacao, Pageable pageable);
+
+    /**
+     * Retorna o número de registros, filtros: situacao
+     *
+     * @param situacao
+     * @return
+     */
+    @Query(value = "SELECT COUNT(id) FROM cadastro_model WHERE situacao LIKE %?", nativeQuery = true)
+    long findByHistoricoCount(String situacao);
+
+    /**
+     * Retorna a soma de todos os valores, filtros: situacao
+     *
+     * @param situacao
+     * @return
+     */
+    @Query(value = "SELECT SUM(valor) FROM cadastro_model WHERE situacao LIKE %?", nativeQuery = true)
+    BigDecimal findByHistoricoSaldo(String situacao);
+
+    /**
+     * Lista todos os registros, filtros: inicio, fim, situacao
      *
      * @param inicio
      * @param fim
@@ -37,7 +73,7 @@ public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
     List<CadastroModel> findByHistorico(String inicio, String fim, String situacao, Pageable pageable);
 
     /**
-     * Conta o número de registros, filtros: data, situacao
+     * Retorna o número de registros, filtros: inicio, fim, situacao
      *
      * @param inicio
      * @param fim
@@ -48,7 +84,7 @@ public interface CadastroRepository extends JpaRepository<CadastroModel, Long> {
     long findByHistoricoCount(String inicio, String fim, String situacao);
 
     /**
-     * Retorna a soma de todos os valores, filtros: data, situacao
+     * Retorna a soma de todos os valores, filtros: inicio, fim, situacao
      *
      * @param inicio
      * @param fim

@@ -37,6 +37,14 @@
                 </ul>
 
             </div>
+
+            <!-- Campo de pesquisa -->
+            <form th:action="@{/pagina_resultados}" method="get" class="form-inline my-2 my-lg-0">
+                <input type="date" name="dataInicio" th:value="${param.dataInicio}" class="form-control mr-3">
+                <input type="date" name="dataFim" th:value="${param.dataFim}" class="form-control mr-3">
+                <button class="btn btn btn-light my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+
         </nav>
 
         <!-- Conteúdo -->
@@ -44,7 +52,6 @@
 
 
             <!-- Pesquisa -->
-
             <form th:action="@{/pagina_resultados}" method="get">
                 <div class="card mb-4">
                     <div class="card-header font-weight-bold mb-3">Filtros de busca</div>

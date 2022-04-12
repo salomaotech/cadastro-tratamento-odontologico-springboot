@@ -15,6 +15,7 @@ public class ValidaStringIsEmpty {
      */
     public static boolean isEmpty(String valor) {
 
+        /* excessão */
         try {
 
             /* retorno */

@@ -18,12 +18,15 @@ public class CadastroModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    /* datas */
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate dataInicio;
 
+    /* campos comuns */
     private String situacao;
     private String dentes;
     private String procedimento;
+    private String anotacoes;
     private String valor;
 
     public CadastroModel() {
@@ -67,6 +70,14 @@ public class CadastroModel implements Serializable {
 
     public void setProcedimento(String procedimento) {
         this.procedimento = procedimento;
+    }
+
+    public String getAnotacoes() {
+        return anotacoes;
+    }
+
+    public void setAnotacoes(String anotacoes) {
+        this.anotacoes = anotacoes;
     }
 
     public String getValor() {

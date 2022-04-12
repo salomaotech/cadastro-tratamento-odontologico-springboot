@@ -29,7 +29,7 @@
 
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/pagina_cadastro">Cadastro</a>
-                            <a class="dropdown-item" href="/pagina_resultados">Resultados</a>                            
+                            <a class="dropdown-item" href="/pagina_resultados">Resultados</a>
                         </div>
 
                     </li>
@@ -37,6 +37,14 @@
                 </ul>
 
             </div>
+
+            <!-- Campo de pesquisa -->
+            <form th:action="@{/pagina_resultados}" method="get" class="form-inline my-2 my-lg-0">
+                <input type="date" name="dataInicio" th:value="${param.dataInicio}" class="form-control mr-3">
+                <input type="date" name="dataFim" th:value="${param.dataFim}" class="form-control mr-3">
+                <button class="btn btn btn-light my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+
         </nav>
 
         <!-- Conteúdo -->
@@ -47,18 +55,23 @@
 
                 <!-- Dados do tratamento -->
                 <div class="card mb-4">
-                    <div class="card-header font-weight-bold mb-3">Tratamento dentário</div>
+                    <div class="card-header font-weight-bold mb-3">Cadastro de tratamento</div>
 
                     <div class="pl-3 pr-3">
 
                         <div class="form-row mb-2">
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 <label>Data</label>
                                 <input type="date" th:field="*{dataInicio}" name="dataInicio" class="form-control">
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-2">
+                                <label>Valor R$</label>
+                                <input type="text" th:field="*{valor}" name="valor" class="form-control" placeholder="Valor R$">
+                            </div>
+
+                            <div class="form-group col-md-3">
                                 <label>Situação</label>
                                 <select th:field="*{situacao}" name="situacao" class="form-control">
                                     <option value="Iniciado">Iniciado</option>
@@ -71,23 +84,23 @@
 
                         <div class="form-row mb-2">
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 <label>Dentes</label>
-                                <textarea cols="5" rows="4" th:field="*{dentes}" name="dentes" class="form-control" placeholder="Dentes"></textarea>
+                                <textarea cols="5" rows="3" th:field="*{dentes}" name="dentes" class="form-control" placeholder="Dentes"></textarea>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-5">
                                 <label>Procedimento</label>
-                                <textarea cols="5" rows="4" th:field="*{procedimento}" name="procedimento" class="form-control" placeholder="Procedimento"></textarea>
+                                <textarea cols="5" rows="3" th:field="*{procedimento}" name="procedimento" class="form-control" placeholder="Procedimento"></textarea>
                             </div>
 
                         </div>
 
                         <div class="form-row mb-2">
 
-                            <div class="form-group col-md-2">
-                                <label>Valor R$</label>
-                                <input type="text" th:field="*{valor}" name="valor" class="form-control" placeholder="Valor R$">
+                            <div class="form-group col-md-7">
+                                <label>Anotações opcionais</label>
+                                <textarea cols="5" rows="4" th:field="*{anotacoes}" name="anotacoes" class="form-control" placeholder="Anotações opcionais"></textarea>
                             </div>
 
                         </div>
